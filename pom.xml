@@ -1,0 +1,181 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.cj</groupId>
+    <artifactId>cjShop-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <groupId>com.cj</groupId>
+  <artifactId>cjShop-back</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  
+  <dependencies>
+  	<dependency>
+  		<groupId>com.cj</groupId>
+		<artifactId>cjShop-common</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+	
+	<dependency>
+		<groupId>org.csource</groupId>
+		<artifactId>fastdfs-client-java</artifactId>
+		<version>1.27-SNAPSHOT</version>
+	</dependency>
+	<!-- ####################dao################## -->
+	<!-- //Mybatis -->
+	<dependency>
+		<groupId>org.mybatis</groupId>
+		<artifactId>mybatis</artifactId>
+	</dependency>
+	<dependency><!--//整合包-->
+		<groupId>org.mybatis</groupId>
+		<artifactId>mybatis-spring</artifactId>
+	</dependency>
+	<dependency><!--//分页插件.-->
+		<groupId>com.github.miemiedev</groupId>
+		<artifactId>mybatis-paginator</artifactId>
+	</dependency>
+	<dependency><!--//mybatis的分页插件-->
+		<groupId>com.github.pagehelper</groupId>
+		<artifactId>pagehelper</artifactId>
+	</dependency>
+	<!-- //MySql -->
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+	</dependency>
+	<!-- //连接池 -->
+	<dependency>
+		<groupId>com.alibaba</groupId>
+		<artifactId>druid</artifactId>
+	</dependency>
+	<!-- #####################service and controller###################### -->
+	<!--//spring.-->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-beans</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-webmvc</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-jdbc</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-aspects</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context-support</artifactId>
+	</dependency>
+	<!-- ####################web######################## -->
+	<!-- //JSP相关 -->
+	<dependency>
+		<groupId>jstl</groupId>
+		<artifactId>jstl</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>servlet-api</artifactId>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>jsp-api</artifactId>
+		<scope>provided</scope>
+	</dependency>
+	<!-- //文件上传组件 -->
+	<dependency>
+		<groupId>commons-fileupload</groupId>
+		<artifactId>commons-fileupload</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-databind</artifactId>
+	</dependency>
+	  <dependency>
+		  <groupId>junit</groupId>
+		  <artifactId>junit</artifactId>
+	  </dependency>
+			
+  </dependencies>
+  
+  <!-- #####################插件##################### -->
+<build>
+	 <!-- 让maven把src/main/java/下的资源和配置文件,一起打包. 否则只会打包src/main/resource/下的.-->  
+    <resources>  
+        <resource>  
+            <directory>src/main/resources</directory>  
+            <includes>  
+                <include>**/*.properties</include>  
+                <include>**/*.xml</include>  
+                <include>**/*.tld</include>  
+                <include>**/*.conf</include>  
+            </includes>  
+            <filtering>false</filtering>  
+        </resource>  
+        <resource>  
+            <directory>src/main/java</directory>  
+            <includes>  
+                <include>**/*.properties</include>  
+                <include>**/*.xml</include>  
+                <include>**/*.tld</include>  
+            </includes>  
+            <filtering>false</filtering>  
+        </resource>  
+    </resources> 
+	<plugins>
+		<!-- //资源文件拷贝插件 -->
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-resources-plugin</artifactId>
+			<version>2.7</version>
+			<configuration>
+				<encoding>UTF-8</encoding>
+			</configuration>
+		</plugin>
+		<!-- //java编译插件,默认的是1.5 -->
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>3.2</version>
+			<configuration>
+				<source>1.7</source>
+				<target>1.7</target>
+				<encoding>UTF-8</encoding>
+			</configuration>
+		</plugin>
+		<!-- 添加tomcat插件 -->
+		<plugin>
+			<groupId>org.apache.tomcat.maven</groupId>
+			<artifactId>tomcat7-maven-plugin</artifactId>
+			<configuration>
+				<port>8080</port>
+				<!--//要部署到/根目录,根目录就是服务器的:cd /home/jsflzhong/apache-tomcat-7.0.47/webapps/ROOT 目录下-->
+				<path>/</path>
+				<uriEncoding>UTF-8</uriEncoding>
+				<!-- //系统热部署配置 -->
+				<!-- //前半部分为tomcat的IP和端口,后半部分是固定写法 -->
+				<!-- //tomcat7才有/text.如果是tomcat6,则后半部分只有/manager -->
+				<!--  <url>http://192.168.172.134:8100/manager/text</url>-->
+				<username>tomcat</username>
+				<password>tomcat</password>
+			</configuration>
+		</plugin>
+	</plugins>
+
+</build>
+
+  
+</project>
